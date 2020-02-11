@@ -1,0 +1,22 @@
+{
+  "name": "simplecloud",
+  "version": "1.0.0",
+  "description": "Cloud application using AWS server and DynamoDB backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Scolard",
+  "license": "ISC",
+  "dependencies": {
+    "aws": "0.0.3-2",
+    "aws-sdk": "^2.562.0",
+    "dynamodb": "^1.2.1",
+    "express": "^4.17.1",
+    "node": "^13.1.0",
+    "nodemon": "^1.19.4",
+    "request": "^2.88.0",
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {}
+}

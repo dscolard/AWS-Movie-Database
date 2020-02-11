@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple Cloud Assignment</title>
+</head>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<body>
+    <h1 style="text-align: center;">Movie Database Application</h1>
+    <div id="app">
+
+        <div style="text-align: center; padding: 3px;">
+            <button type="submit" v-on:click='createDatabase' style=" border-radius: 5px; font-size: 15px;">Create Database</button>
+            <button type="submit" v-on:click='destroyDatabase'style="border-radius: 5px; font-size: 15px; ">Destroy Database</button><br><br>
+        </div>
+
+        <div style=" text-align: center; margin: auto; width: 50%; border: 2px solid; border-radius: 10px; padding: 10px;">
+            <b>Query Movie Database</b><br>
+            <div style="padding: 10px;">
+                <input type="text" v-model="title" style="border-radius: 5px; padding: 5px" placeholder="Enter Title">
+                <input type="text" v-model="year" style="border-radius: 5px; padding: 5px" placeholder="Enter Year"><br>
+            </div>
+            <button type="submit" v-on:click='querySearch' style="border-radius: 5px; font-size: 15px;">Search</button>
+        </div>
+        <br>
+        <b>{{message}}</b>
+        <div v-for="x in results">
+                <p>
+                    <ul style="padding: 50px; border-radius: 15px; background-color:#e7ffe6">
+                          <li>
+                               Year: {{ x.year }} <br>
+                               Movie: {{x.title}} <br>
+                               Release Date: {{x.info.release_date.substring(0, 10)}} <br>
+                               Rank: {{x.info.rank}}
+
+                          </li>
+                    </ul>    
+                </p>
+        </div>
+    </div>
+
+    <script>
+        
+        new Vue({
+            el:"#app",
+
+            data : {
+                title: "",
+                year: "",
+                message: "",
+                results: [],
+                queryResults: {}
+            },
+
+            methods: {
+
+            	createDatabase: function(){
+                    let res = fetch("create");
+            	},
+
+            	querySearch: function(){
+                    let res = fetch("query/"+this.title+"/"+this.year)
+                    res.then(response => response.json())
+                    .then(response => {
+
+                        this.message = "Displaying all movies from the year "+this.year+",\n with a title beginning '"+this.title+"'...   ";
+                        this.queryResults = response;
+
+                        len = this.title.length;
+                        this.results.length=0;
+
+                        for(i=0; i<this.queryResults.length; i++){   
+                            var sub = this.queryResults[i].title.substring(0, len);  
+                            if(this.title == sub){
+                                this.results.push(this.queryResults[i]);
+                            }
+                        }  
+
+                        if(this.results.length == 0){
+                            this.message = "No movies were found for the given title and year.";
+                        }
+                    });
+
+            	},
+
+            	destroyDatabase: function(){
+                    let res = fetch("delete");
+            	}
+        	}
+   		 })
+    
+    </script>
+</body>
+</html>

@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "aws": "0.0.3-2",
-    "aws-sdk": "^2.562.0",
+    "aws-sdk": "^2.814.0",
     "dynamodb": "^1.2.1",
     "express": "^4.17.1",
     "node": "^13.1.0",
